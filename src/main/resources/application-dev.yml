@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://192.168.19.128:5432/alita
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    maximum-pool-size: 5
+    max-lifetime: 570000
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        query:
+          conventional_java_constants: false
+        temp:
+          use_jdbc_metadata_defaults: false
