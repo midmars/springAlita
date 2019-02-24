@@ -1,6 +1,7 @@
 package com.star.config;
 
 
+import jdk.nashorn.internal.ir.annotations.Reference;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
@@ -12,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 
 import javax.annotation.Resource;
@@ -39,7 +42,13 @@ public class WebSecurityConfig {
 //        @Resource
 //        private AuthenticationProvider authenticationProvider;
 
+        @Resource
+        private  AuthenticationProvider authenticationProvider;
+        @Resource(name="customAuthenticationSuccessHandler")
+        private AuthenticationSuccessHandler authenticationSuccessHandler;
 
+        @Resource(name = "customAuthenticationFaileureHandler")
+        private AuthenticationFailureHandler authenticationFailureHandler;
         public WebSecurityConfigurer() {
             super();
             SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
@@ -59,21 +68,23 @@ public class WebSecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-
+                    .antMatcher("/admin/**")
                     .authorizeRequests()
-                    .antMatchers("/**")
-                    .permitAll()
+                    .antMatchers("/admin/login").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .formLogin().loginPage("/admin/login")
-                    .loginProcessingUrl("/login/process")
+                    .loginProcessingUrl("/admin/login/process")
                     .defaultSuccessUrl("/baseball")
+                    .successHandler(authenticationSuccessHandler)
+                    .failureUrl("/admin/login")
+                    .failureHandler(authenticationFailureHandler)
                     .and()
                     .logout().permitAll();
 
 
 
-
+            http.csrf().disable();
             http.headers().frameOptions();
             http.headers().xssProtection().block(true);
         }
@@ -92,8 +103,8 @@ public class WebSecurityConfig {
          */
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//            auth.authenticationProvider(authenticationProvider);
-           auth.userDetailsService(userDetailsService);
+            auth.authenticationProvider(authenticationProvider);
+//           auth.userDetailsService(userDetailsService);
         }
 
 //        /**

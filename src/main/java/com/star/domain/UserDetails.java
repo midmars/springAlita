@@ -13,7 +13,7 @@ public class UserDetails extends org.springframework.security.core.userdetails.U
     private List<String> roles;
 
     public UserDetails(User user, List<String> roles) {
-        super(user.getName(), user.getPassword(),
+        super(user.getUserId(), user.getPassword(),
                 roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
         this.user = user;
         this.roles = roles;
@@ -22,7 +22,7 @@ public class UserDetails extends org.springframework.security.core.userdetails.U
     public UserDetails(User user, List<String> roles, boolean enabled,
                        boolean accountNonExpired, boolean credentialsNonExpired,
                        boolean accountNonLocked) {
-        super(user.getName(), user.getPassword(), enabled, accountNonExpired,
+        super(user.getUserId(), user.getPassword(), enabled, accountNonExpired,
                 credentialsNonExpired, accountNonLocked,
                 roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
         this.user = user;

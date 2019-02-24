@@ -54,7 +54,7 @@ public class User {
     }
     public  List<String> getRoleIds(){
         if(null==roleIds){
-            roleIds=   getRoles().stream().map(Role::getId).collect(Collectors.toList());
+            roleIds=getRoles().stream().map(Role::getId).collect(Collectors.toList());
         }
         return roleIds;
     }

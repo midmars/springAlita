@@ -22,11 +22,11 @@ public class AdminController {
     @RequestMapping("/index")
     public String index(){
 
-        return "/admin/index";}
+        return "/index";}
     @RequestMapping("/login")
     public String login(){
 
-        return "/admin/login-index";}
+        return "/admin/login";}
 
 
 

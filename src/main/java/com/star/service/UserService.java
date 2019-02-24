@@ -1,4 +1,8 @@
-package com.star.service.impl;
+package com.star.service;
+
+import com.star.domain.User;
 
 public interface UserService {
+
+    User findByUserId(String userId);
 }
