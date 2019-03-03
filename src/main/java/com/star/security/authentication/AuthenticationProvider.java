@@ -50,10 +50,10 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
 //
 //                    throw new BadCredentialsException("驗證錯誤");
 //                }
-        if(null==authentication.getCredentials()||authentication.getCredentials().toString().equals(user.getPassword())){
-                    log.error("驗證錯誤");
+                if(null==authentication.getCredentials()||!authentication.getCredentials().toString().equals(user.getPassword())){
+                    log.error("帳號密碼錯誤");
 
-                    throw new BadCredentialsException("驗證錯誤");
+                    throw new BadCredentialsException("Bad Credential");
                 }
     }
 

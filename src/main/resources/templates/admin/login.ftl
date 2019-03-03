@@ -1,6 +1,6 @@
 <head>
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <#--<meta name="_csrf" content="${_csrf.token}"/>-->
+    <#--<meta name="_csrf_header" content="${_csrf.headerName}"/>-->
 </head>
 <div class="container-fluid">
 
@@ -25,9 +25,10 @@
                     <tr>
                         <td colspan='2'><input name="submit" type="submit" value="登入"/></td>
                     </tr>
-                    <!--<input name="_csrf" type="hidden" value="${_csrf}"/>-->
+                    <#--<!--<input name="_csrf" type="hidden" value="${_csrf}"/>&ndash;&gt;-->
 
                 </table>
+                <div id="message" class="text-danger">${Session.SPRING_SECURITY_LAST_EXCEPTION!}</div>
             </form>
         </div>
     </div>

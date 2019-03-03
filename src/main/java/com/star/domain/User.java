@@ -30,9 +30,13 @@ public class User {
     @NotEmpty
     private String password;
 
-
+    @Column(name = "disabled_")
+    private Boolean disabled;
     @Column(name="name_")
     private String name;
+
+    @Column(name = "locked_")
+    private Boolean locked;
 
     @ManyToMany
     @JoinTable(name="alita_user_role",
@@ -58,5 +62,7 @@ public class User {
         }
         return roleIds;
     }
+
+
 }
 

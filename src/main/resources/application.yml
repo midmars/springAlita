@@ -6,7 +6,6 @@ server:
       timeout: 600
   port: 8081
 spring:
-
   jpa:
     generate-ddl: false
     show-sql: false
@@ -17,3 +16,8 @@ spring:
           conventional_java_constants: false
   profiles:
     active: dev
+  freemarker:
+    enabled: true
+    cache: true
+    suffix: .ftl
+#    prefix:

@@ -3,6 +3,7 @@ package com.star.service.impl;
 import com.star.domain.Role;
 import com.star.domain.User;
 import com.star.repository.UserRepository;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,11 +26,15 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if(user==null){
             throw new UsernameNotFoundException("找不到使用者");
         }else{
-
+            boolean enabled = !BooleanUtils.isTrue(user.getDisabled());
+            boolean accountNonExpired;
+            boolean credentials;
+            boolean accountNonLocked = !BooleanUtils.isTrue(user.getLocked());
             return new com.star.domain.UserDetails(user,
                     user.getRoles().stream().map(Role::getNo).collect(Collectors.toList()),
-                    true, true, true, false);
+                    enabled, true, true, accountNonLocked);
 
         }
     }
+
 }
