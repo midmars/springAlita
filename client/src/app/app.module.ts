@@ -3,15 +3,24 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { BaseballGroupListComponent } from './baseball-group-list/baseball-group-list.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule} from "@angular/material";
+import {OktaAuthModule} from "@okta/okta-angular";
+import {AuthInterceptor} from "./shared/okta/auth.interceptor";
+import { HomeComponent } from './home/home.component';
 
+const config = {
+  issuer: 'https://dev-189678.okta.com/oauth2/default',
+  redirectUri: 'http://localhost:4200/implicit/callback',
+  clientId: '0oac471c2iq43VmXV356'
+};
 @NgModule({
   declarations: [
     AppComponent,
-    BaseballGroupListComponent
+    BaseballGroupListComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -22,10 +31,11 @@ import {MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolba
     MatCardModule,
     MatInputModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    OktaAuthModule.initAuth(config)
 
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
