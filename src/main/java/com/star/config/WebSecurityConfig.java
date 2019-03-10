@@ -31,7 +31,7 @@ public class WebSecurityConfig {
      * 後端端相關設定
      */
     @Configuration
-    @Order(3)
+//    @Order()
     public static class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         /**
          * 使用者服務，實現取得使用者登入資訊

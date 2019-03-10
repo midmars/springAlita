@@ -1,7 +1,7 @@
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://192.168.159.131:5432/alita
+    url: jdbc:postgresql://192.168.19.128:5432/alita
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: postgres

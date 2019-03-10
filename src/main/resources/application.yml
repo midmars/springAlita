@@ -20,4 +20,7 @@ spring:
     enabled: true
     cache: true
     suffix: .ftl
-#    prefix:
+okta:
+  oauth2:
+    client-id: 0oac471c2iq43VmXV356
+    issuer: https://dev-189678.okta.com/oauth2/default
