@@ -1,0 +1,32 @@
+<div class="row">
+  <mat-card>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-card-title>Login</mat-card-title>
+        <mat-card-content>
+        <div>
+          <mat-form-field>
+            <!--<label>帳號:</label>-->
+            <input matInput placeholder="請輸入帳號" name="username"  formControlName="username" >
+              <!--<div *ngIf="loginForm.username.errors.required">-->
+                <!--Name is required.-->
+              <!--</div>-->
+            <mat-error *ngIf="loginForm.controls['username'].hasError('required')">請輸入帳號</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <!--<label>密碼:</label>-->
+            <input matInput placeholder="請輸入密碼" name="password" formControlName="password" />
+            <!--<div class="error" *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">Password is required</div>-->
+            <mat-error *ngIf="loginForm.controls['password'].hasError('required')">請輸入密碼</mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit"
+                  [disabled]="loginForm.invalid">登入</button>
+        </mat-card-actions>
+      </mat-card-content>
+    </form>
+
+  </mat-card>
+</div>

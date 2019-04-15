@@ -9,4 +9,8 @@ public interface UserService {
     void save(User source);
 
     void update(User source);
+
+    User findOne(String id);
+
+    void delete(String id);
 }

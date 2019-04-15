@@ -55,6 +55,15 @@ public class UserServiceImpl implements UserService {
         userRepository.save(source);
     }
 
+    @Override
+    public User findOne(String id) {
+        return userRepository.findById(id).get();
+    }
 
+    @Override
+    public void delete(String id) {
+        User user = userRepository.findById(id).get();
+        userRepository.delete(user);
+    }
 
 }

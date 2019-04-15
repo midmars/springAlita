@@ -8,7 +8,6 @@ import { BaseballGroupListComponent } from './baseball-group-list/baseball-group
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule} from "@angular/material";
 import {OktaAuthModule} from "@okta/okta-angular";
-import {AuthInterceptor} from "./shared/okta/auth.interceptor";
 import { HomeComponent } from './home/home.component';
 
 
@@ -36,7 +35,7 @@ const config={
     OktaAuthModule.initAuth(config)
 
   ],
-  providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}],
+  providers: [],
   bootstrap: [AppComponent]
 })
 

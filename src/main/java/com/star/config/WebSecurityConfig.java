@@ -2,9 +2,11 @@ package com.star.config;
 
 
 import jdk.nashorn.internal.ir.annotations.Reference;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,15 +45,22 @@ public class WebSecurityConfig {
 //        private AuthenticationProvider authenticationProvider;
 
         @Resource
-        private  AuthenticationProvider authenticationProvider;
-        @Resource(name="customAuthenticationSuccessHandler")
+        private AuthenticationProvider authenticationProvider;
+        @Resource(name = "customAuthenticationSuccessHandler")
         private AuthenticationSuccessHandler authenticationSuccessHandler;
 
         @Resource(name = "customAuthenticationFaileureHandler")
         private AuthenticationFailureHandler authenticationFailureHandler;
+
         public WebSecurityConfigurer() {
             super();
             SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+        }
+
+        @Override
+        @Bean
+        public AuthenticationManager authenticationManagerBean() throws Exception {
+            return super.authenticationManagerBean();
         }
 
         @Override
@@ -81,7 +90,6 @@ public class WebSecurityConfig {
                     .failureHandler(authenticationFailureHandler)
                     .and()
                     .logout().permitAll();
-
 
 
             http.csrf().disable();
@@ -123,5 +131,75 @@ public class WebSecurityConfig {
 //        }
     }
 
+    @Configuration
+    @Order(1)
+    public static class ApiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+        /**
+         * 使用者服務，實現取得使用者登入資訊
+         */
+        @Resource
+        private UserDetailsService userDetailsService;
 
+//        @Resource
+//        private AuthenticationProvider authenticationProvider;
+
+        @Resource
+        private AuthenticationProvider authenticationProvider;
+        @Resource(name = "customAuthenticationSuccessHandler")
+        private AuthenticationSuccessHandler authenticationSuccessHandler;
+
+        @Resource(name = "customAuthenticationFaileureHandler")
+        private AuthenticationFailureHandler authenticationFailureHandler;
+
+        public ApiWebSecurityConfigurer() {
+            super();
+            SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+        }
+
+        @Override
+        public void configure(WebSecurity web) throws Exception {
+            /*
+             * 靜態資源
+             */
+            web.ignoring().antMatchers("/js/**", "/css/**", "/images/**");
+            web.ignoring().antMatchers("/security/**");
+            // web.ignoring().antMatchers("/public/login-index");
+        }
+
+        // @formatter:off
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.antMatcher("/api/**").authorizeRequests()
+                    .antMatchers("/api/user/**").permitAll()
+                    .and()
+                    .csrf().disable()
+//                    .anonymous().disable()
+            ;
+
+
+            http.csrf().disable();
+            http.headers().frameOptions();
+            http.headers().xssProtection().block(true);
+        }
+        // @formatter:on
+
+        /*
+         * 認證管理設定使用者服務
+         *
+         * (non-Javadoc)
+         *
+         * @see
+         * org.springframework.security.config.annotation.web.configuration.
+         * WebSecurityConfigurerAdapter#configure(org.springframework.security.
+         * config.annotation.authentication.builders.
+         * AuthenticationManagerBuilder)
+         */
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.authenticationProvider(authenticationProvider);
+//           auth.userDetailsService(userDetailsService);
+        }
+
+
+    }
 }

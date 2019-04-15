@@ -22,6 +22,9 @@ public class User {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     private String id;
 
+    @Column(name="name_")
+    private String name;
+
     @Column(name="user_id_")
     @NotEmpty
     private String userId;
@@ -32,8 +35,6 @@ public class User {
 
     @Column(name = "disabled_")
     private Boolean disabled;
-    @Column(name="name_")
-    private String name;
 
     @Column(name = "locked_")
     private Boolean locked;
